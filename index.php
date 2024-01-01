@@ -2,34 +2,31 @@
 session_start();
 error_reporting(0);
 include('includes/config.php');
+
 if ($_SESSION['login'] != '') {
     $_SESSION['login'] = '';
 }
 
 if (isset($_POST['login'])) {
-    if ($_POST["vercode"] != $_SESSION["vercode"] or $_SESSION["vercode"] == '') {
-        echo "<script>alert('Incorrect verification code');</script>";
-    } else {
-        $email = $_POST['emailid'];
-        $password = md5($_POST['password']);
-        $sql = "SELECT EmailId,Password,StudentId,Status FROM tblstudents WHERE EmailId={$email} and Password={$password}";
+    $email = $_POST['emailid'];
+    $password = $_POST['password'];
+    $sql = "SELECT EmailId,Password,StudentId,Status FROM tblstudents WHERE EmailId='{$email}' and Password='{$password}'";
 
-        $results = $conn->query($sql);
+    $results = $conn->query($sql);
 
-        if ($results->num_rows > 0) {
-            foreach ($results as $result) {
-                $_SESSION['stdid'] = $result->StudentId;
-                if ($result->Status == 1) {
-                    $_SESSION['login'] = $_POST['emailid'];
-                    Header("Location:dashboard.php");
-                } else {
-                    echo "<script>alert('Your Account Has been blocked .Please contact admin');</script>";
-                }
-            }
+    if ($results->num_rows > 0) {
+        $row = $results->fetch_assoc();
+        $_SESSION['stdid'] = $row['StudentId'];
+        if ($row['Status'] == 1) {
+            $_SESSION['login'] = $_POST['emailid'];
+            Header("Location:dashboard.php");
         } else {
-            echo "<script>alert('Invalid Details');</script>";
+            echo "<script>alert('Your Account Has been blocked .Please contact admin');</script>";
         }
+    } else {
+        echo "<script>alert('Invalid Details');</script>";
     }
+
 }
 ?>
 
@@ -53,7 +50,7 @@ if (isset($_POST['login'])) {
         <h4 class="header-line">USER LOGIN FORM</h4>
 
         <div class="form-body">
-            <form role="form" method="post">
+            <form role="form" method="post" action="index.php">
 
                 <div class="form-group">
                     <label>Enter Email id</label>

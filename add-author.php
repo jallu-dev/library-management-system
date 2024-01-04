@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+
 include('config.php');
 if(strlen($_SESSION['alogin'])==0)
     {   
@@ -13,7 +13,7 @@ if(isset($_POST['create']))
 $author=$_POST['author'];
 $sql="INSERT INTO  tblauthors(AuthorName) VALUES('{$author}')";
 $result = $conn->query($sql);
-$lastInsertId = $dbh->lastInsertId();
+$lastInsertId = $conn->insert_id;
 if($lastInsertId)
 {
 $_SESSION['msg']="Author Listed successfully";
@@ -45,42 +45,43 @@ header('location:manage-authors.php');
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
 </head>
+
 <body>
-      <!------MENU SECTION START-->
-<?php include('header.php');?>
-<!-- MENU SECTION END-->
+    <!------MENU SECTION START-->
+    <?php include('includes/header.php');?>
+    <!-- MENU SECTION END-->
     <div class="content-wra
-    <div class="content-wrapper">
-         <div class="container">
-        <div class="row pad-botm">
-            <div class="col-md-12">
-                <h4 class="header-line">Add Author</h4>
-                
+    <div class=" content-wrapper">
+        <div class="container">
+            <div class="row pad-botm">
+                <div class="col-md-12">
+                    <h4 class="header-line">Add Author</h4>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"">
+<div class=" panel panel-info">
+                    <div class="panel-heading">
+                        Author Info
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post">
+                            <div class="form-group">
+                                <label>Author Name</label>
+                                <input class="form-control" type="text" name="author" autocomplete="off" required />
                             </div>
 
-</div>
-<div class="row">
-<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"">
-<div class="panel panel-info">
-<div class="panel-heading">
-Author Info
-</div>
-<div class="panel-body">
-<form role="form" method="post">
-<div class="form-group">
-<label>Author Name</label>
-<input class="form-control" type="text" name="author" autocomplete="off"  required />
-</div>
+                            <button type="submit" name="create" class="btn btn-info">Add </button>
 
-<button type="submit" name="create" class="btn btn-info">Add </button>
-
-                                    </form>
-                            </div>
-                        </div>
-                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
         </div>
-   
+
     </div>
     </div>
 
@@ -90,8 +91,9 @@ Author Info
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- BOOTSTRAP SCRIPTS  -->
     <script src="assets/js/bootstrap.js"></script>
-      <!-- CUSTOM SCRIPTS  -->
+    <!-- CUSTOM SCRIPTS  -->
     <script src="assets/js/custom.js"></script>
 </body>
+
 </html>
 <?php } ?>

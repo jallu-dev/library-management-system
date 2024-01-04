@@ -9,7 +9,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         $category = $_POST['category'];
         $status = $_POST['status'];
         $sql = "INSERT INTO  tblcategory(CategoryName,Status) VALUES('{$category}','{$status}')";
-        $result = $dbh->query($sql);
+        $result = $conn->query($sql);
 
         $lastInsertId = $conn->insert_id;
         if ($lastInsertId) {

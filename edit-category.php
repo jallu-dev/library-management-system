@@ -9,12 +9,9 @@ if (strlen($_SESSION['alogin']) == 0) {
         $category = $_POST['category'];
         $status = $_POST['status'];
         $catid = intval($_GET['catid']);
-        $sql = "update  tblcategory set CategoryName=:category,Status=:status where id=:catid";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':category', $category, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->bindParam(':catid', $catid, PDO::PARAM_STR);
-        $query->execute();
+        $sql = "update  tblcategory set CategoryName='{$category}',Status='{$status}' where id='{$catid}'";
+        $result = $conn->query($sql);
+
         $_SESSION['updatemsg'] = "Brand updated successfully";
         header('location:manage-categories.php');
 
@@ -22,7 +19,6 @@ if (strlen($_SESSION['alogin']) == 0) {
     }
     ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8" />
@@ -66,22 +62,20 @@ if (strlen($_SESSION['alogin']) == 0) {
                         <form role="form" method="post">
                             <?php
                                 $catid = intval($_GET['catid']);
-                                $sql = "SELECT * from tblcategory where id=:catid";
-                                $query = $dbh->prepare($sql);
-                                $query->bindParam(':catid', $catid, PDO::PARAM_STR);
-                                $query->execute();
-                                $results = $query->fetchAll(PDO::FETCH_OBJ);
-                                if ($query->rowCount() > 0) {
+                                $sql = "SELECT * from tblcategory where id='{$catid}'";
+                                $results = $conn->query($sql);
+
+                                if ($results->num_rows > 0) {
                                     foreach ($results as $result) {
                                         ?>
                             <div class="form-group">
                                 <label>Category Name</label>
                                 <input class="form-control" type="text" name="category"
-                                    value="<?php echo htmlentities($result->CategoryName); ?>" required />
+                                    value="<?php echo htmlentities($result['CategoryName']); ?>" required />
                             </div>
                             <div class="form-group">
                                 <label>Status</label>
-                                <?php if ($result->Status == 1) { ?>
+                                <?php if ($result['Status'] == 1) { ?>
                                 <div class="radio">
                                     <label>
                                         <input type="radio" name="status" id="status" value="1" checked="checked">Active
@@ -117,9 +111,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     </div>
     </div>
-    <!-- CONTENT-WRAPPER SECTION END-->
-    <?php include('includes/footer.php'); ?>
-    <!-- FOOTER SECTION END-->
+
     <!-- JAVASCRIPT FILES PLACED AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
     <!-- CORE JQUERY  -->
     <script src="assets/js/jquery-1.10.2.js"></script>

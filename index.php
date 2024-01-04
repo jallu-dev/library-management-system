@@ -1,12 +1,12 @@
 <?php
 session_start();
-include('config.php');
+include('includes/config.php');
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
-    $password = md5($_POST['password']);
+    $password = $_POST['password'];
     $sql = "SELECT UserName,Password FROM admin WHERE UserName='{$username}' and Password='{$password}'";
     $result = $conn->query($sql);
-    
+
     if ($result->num_rows > 0) {
         $_SESSION['alogin'] = $_POST['username'];
         header("location: dashboard.php");
@@ -36,7 +36,7 @@ if (isset($_POST['login'])) {
 
 <body>
     <!------MENU SECTION START-->
-    <?php include('header.php'); ?>
+    <?php include('includes/header.php'); ?>
     <!-- MENU SECTION END-->
     <div class="content-wrapper">
         <div class="container">

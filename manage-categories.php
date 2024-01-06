@@ -49,7 +49,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <h4 class="header-line">Manage Categories</h4>
                 </div>
                 <div class="row">
-                    <?php if ($_SESSION['error'] != "") { ?>
+                    <?php if (isset($_SESSION['error'])) { ?>
                     <div class="col-md-6">
                         <div class="alert alert-danger">
                             <strong>Error :</strong>
@@ -58,7 +58,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                         </div>
                     </div>
                     <?php } ?>
-                    <?php if ($_SESSION['msg'] != "") { ?>
+                    <?php if (isset($_SESSION['msg'])) { ?>
                     <div class="col-md-6">
                         <div class="alert alert-success">
                             <strong>Success :</strong>
@@ -67,7 +67,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                         </div>
                     </div>
                     <?php } ?>
-                    <?php if ($_SESSION['updatemsg'] != "") { ?>
+                    <?php if (isset($_SESSION['updatemsg'])) { ?>
                     <div class="col-md-6">
                         <div class="alert alert-success">
                             <strong>Success :</strong>
@@ -78,7 +78,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <?php } ?>
 
 
-                    <?php if ($_SESSION['delmsg'] != "") { ?>
+                    <?php if (isset($_SESSION['delmsg'])) { ?>
                     <div class="col-md-6">
                         <div class="alert alert-success">
                             <strong>Success :</strong>

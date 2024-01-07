@@ -8,10 +8,17 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     if (isset($_POST['issue'])) {
         $studentid = strtoupper($_POST['studentid']);
-        $bookid = $_POST['bookdetails'];
-        $sql = "INSERT INTO  tblissuedbookdetails(StudentID,BookId) VALUES('{$studentid}','{$bookid}')";
+        $isbn = $_POST['isbn'];
+
+        $sql = "SELECT `id` FROM `tblbooks` WHERE `ISBNNumber`='{$isbn}'";
         $result = $conn->query($sql);
 
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $bookid = $row['id'];
+            $sql = "INSERT INTO  tblissuedbookdetails(StudentID,BookId) VALUES('{$studentid}','{$bookid}')";
+            $result = $conn->query($sql);
+        }
         $lastInsertId = $conn->insert_id;
         if ($lastInsertId) {
             $_SESSION['msg'] = "Book issued successfully";
@@ -78,16 +85,9 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         autocomplete="off" required />
                                 </div>
 
-
-
-
-
-
-
                                 <div class="form-group">
-                                    <label>ISBN Number or Book Title<span style="color:red;">*</span></label>
-                                    <input class="form-control" type="text" name="booikid" id="bookid"
-                                        required="required" />
+                                    <label>ISBN Number<span style="color:red;">*</span></label>
+                                    <input class="form-control" type="text" name="isbn" id="isbn" required="required" />
                                 </div>
 
 

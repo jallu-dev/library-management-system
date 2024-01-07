@@ -17,7 +17,7 @@ if (strlen($_SESSION['alogin']) == 0) {
             header('location:manage-categories.php');
         } else {
             $_SESSION['error'] = "Something went wrong. Please try again";
-            header('location:manage-categories.php');
+            header('location:add-categories.php');
         }
 
     }

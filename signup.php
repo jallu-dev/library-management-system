@@ -13,28 +13,23 @@ if (isset($_POST['signup'])) {
     $fname = $_POST['fullanme'];
     $mobileno = $_POST['mobileno'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
-    $confirmpassword = $_POST['confirmpassword'];
     $status = 1;
 
     $sqlCheckEmail = "SELECT `EmailId` FROM `tblstudents` WHERE EmailId='{$email}'";
 
     if ($conn->query($sqlCheckEmail)->num_rows <= 0) {
-        if ($password == $confirmpassword) {
-            echo $StudentId;
-            $sql = "INSERT INTO tblstudents(StudentId,FullName,MobileNumber,EmailId,Password,Status) VALUES('{$StudentId}','{$fname}','{$mobileno}','{$email}','{$password}',{$status})";
-            echo $result;
-            $result = $conn->query($sql);
-            $lastInsertId = $conn->insert_id;
-            if ($lastInsertId) {
-                echo '<script>alert("Student Registration successfull and student id is  "+"' . $StudentId . '")</script>';
-                Header("Location:reg-students.php");
-            } else {
-                echo "<script>alert('Something went wrong. Please try again');</script>";
-            }
+        echo $StudentId;
+        $sql = "INSERT INTO tblstudents(StudentId,FullName,MobileNumber,EmailId,Status) VALUES('{$StudentId}','{$fname}','{$mobileno}','{$email}',{$status})";
+        echo $result;
+        $result = $conn->query($sql);
+        $lastInsertId = $conn->insert_id;
+        if ($lastInsertId) {
+            echo '<script>alert("Student Registration successfull and student id is  "+"' . $StudentId . '")</script>';
+            Header("Location:reg-students.php");
         } else {
-            echo "<script>alert('Password and Confirm password not matched');</script>";
+            echo "<script>alert('Something went wrong. Please try again');</script>";
         }
+
     } else {
         echo "<script>alert('User already exists');</script>";
     }
@@ -43,7 +38,6 @@ if (isset($_POST['signup'])) {
 ?>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="utf-8" />
@@ -109,18 +103,6 @@ if (isset($_POST['signup'])) {
                                     <span id="user-availability-status" style="font-size:12px;"></span>
                                 </div>
 
-                                <div class="form-group">
-                                    <label>Enter Password</label>
-                                    <input class="form-control" type="password" name="password" autocomplete="off"
-                                        required />
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Confirm Password </label>
-                                    <input class="form-control" type="password" name="confirmpassword"
-                                        autocomplete="off" required />
-                                </div>
-
                                 <button type="submit" name="signup" class="btn btn-danger" id="submit">Register Now
                                 </button>
 
@@ -131,8 +113,7 @@ if (isset($_POST['signup'])) {
             </div>
         </div>
     </div>
-    <!-- CONTENT-WRAPPER SECTION END-->
-    <?php include('includes/footer.php'); ?>
+
     <script src="assets/js/jquery-1.10.2.js"></script>
     <!-- BOOTSTRAP SCRIPTS  -->
     <script src="assets/js/bootstrap.js"></script>

@@ -11,7 +11,7 @@ if (isset($_SESSION['alogin'])) {
                     </button>
                     <a class="navbar-brand">
 
-                        <img src="assets/img/logo.png" />
+                        <img src="assets/img/logo1.png" style="height: 400%; position:relative; right:100%; bottom:50%" />
                     </a>
 
                 </div>
